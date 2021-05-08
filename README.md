@@ -44,7 +44,7 @@ It is based on the MELD corpus[1] which includes monolingual (i.e. English) dial
 All MELD dataset[1] was selected and translated into Chinese by native Chinese speakers, who are post-graduate students majoring in English.
 
 
-**Note:** Following the annotation of BConTrasT[2], we assume 50% speakers speaking Chinese to keep data balance, therefore, the source and target text might be in English or German depending on the role.
+**Note:** Following the annotation of BConTrasT[2], we assume 50% speakers speaking Chinese to keep data balance, therefore, the source and target text might be in English or Chinese depending on the role.
 
 
 # Reference
