@@ -1,5 +1,5 @@
 # CPCC
-Data for "Modeling Bilingual Conversational Characteristics for Neural Chat Translation" (ACL2021)
+Data for paper "Modeling Bilingual Conversational Characteristics for Neural Chat Translation" (accepted at ACL-IJCNLP 2021 main conference)
 
 
 Code will be released soon. 
