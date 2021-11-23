@@ -1,8 +1,6 @@
-# BMELD comes from [3], which can be directly downloaded and utilized.
-
 This file contains the train, dev, and test sets of the BMELD corpus
 
-It is based on the MELD corpus[1] which includes monolingual (i.e. English) dialogs. Each line includes:
+It is based on the MELD [corpus[1]](https://github.com/declare-lab/MELD) which includes monolingual (i.e. English) dialogs. Each line includes:
 
   Sr No.	Serial numbers of the utterances mainly for referencing the utterances in case of different versions or multiple copies with different subsets
   **Utterance**	Individual utterances from EmotionLines as a string.
@@ -28,4 +26,3 @@ All MELD dataset[1] was selected, translated into Chinese, and then post-edited 
 
 [1] Soujanya Poria, Devamanyu Hazarika, Navonil Majumder, Gautam Naik, Erik Cambria, and Rada Mihalcea. 2019. MELD: A multimodal multi-party dataset for emotion recognition in conversations. In Proceedings of ACL, pages 527–536.
 [2] M. Amin Farajian, Ant ́onio V. Lopes, Andr ́e F. T. Martins, Sameen Maruf, and Gholamreza Haffari. 2020. Findings of the WMT 2020 shared task on chat translation. In Proceedings of WMT, pages 65–75.
-[3] url: https://github.com/XL2248/CPCC
