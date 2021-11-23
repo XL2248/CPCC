@@ -3,31 +3,31 @@ This file contains the train, dev, and test sets of the BMELD corpus
 
 It is based on the MELD [corpus[1]](https://github.com/declare-lab/MELD) which includes monolingual (i.e. English) dialogs. Each line includes:
 
+```
   Sr No.	Serial numbers of the utterances mainly for referencing the utterances in case of different versions or multiple copies with different subsets
   
-  **Utterance**	Individual utterances from EmotionLines as a string.
+  **Utterance:**	Individual utterances from EmotionLines as a string.
   
-  Speaker	Name of the speaker associated with the utterance.
+  Speaker:	Name of the speaker associated with the utterance.
   
-  Emotion	The emotion (neutral, joy, sadness, anger, surprise, fear, disgust) expressed by the speaker in the utterance.
+  Emotion:	The emotion (neutral, joy, sadness, anger, surprise, fear, disgust) expressed by the speaker in the utterance.
   
-  Sentiment	The sentiment (positive, neutral, negative) expressed by the speaker in the utterance.
+  Sentiment:	The sentiment (positive, neutral, negative) expressed by the speaker in the utterance.
   
-  Dialogue_ID	The index of the dialogue starting from 0.
+  Dialogue_ID:	The index of the dialogue starting from 0.
   
-  Utterance_ID	The index of the particular utterance in the dialogue starting from 0.
+  Utterance_ID:	The index of the particular utterance in the dialogue starting from 0.
   
-  Season	The season no. of Friends TV Show to which a particular utterance belongs.
+  Season:	The season no. of Friends TV Show to which a particular utterance belongs.
   
-  Episode	The episode no. of Friends TV Show in a particular season to which the utterance belongs.
+  Episode:	The episode no. of Friends TV Show in a particular season to which the utterance belongs.
   
-  StartTime	The starting time of the utterance in the given episode in the format 'hh:mm:ss,ms'.
+  StartTime:	The starting time of the utterance in the given episode in the format 'hh:mm:ss,ms'.
   
-  EndTime	The ending time of the utterance in the given episode in the format 'hh:mm:ss,ms'.
+  EndTime:	The ending time of the utterance in the given episode in the format 'hh:mm:ss,ms'.
   
   **Target**	The Chinese translation of the corresponding English Utterance annotated by human.
-
-
+```
 All MELD dataset[1] was selected, translated into Chinese, and then post-edited by native Chinese speakers, who are post-graduate students majoring in English.
 
 
