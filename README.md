@@ -64,7 +64,7 @@ Please refer to the "data_preprocess_code" file.
 
 + The second stage (i.e., fine-tuning on the chat translation data)
 2) bash train_ende_base2.sh # Here, set the training_step=1; Suppose the generated checkpoint file is located in path2
-3) python thumt-1/thumt/scripts/combine_add.py --model path2 --part path1 --output path3  # copy the weight of the first stage to the second stage.
+3) python thumt-code1/thumt/scripts/combine_add.py --model path2 --part path1 --output path3  # copy the weight of the first stage to the second stage.
 4) bash train_ende_base2.sh # Here, set the --output=path3 and the training_step=22,000; Suppose the generated checkpoint file is path4
 
 + Test by multi-blue.perl
