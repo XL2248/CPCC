@@ -1,5 +1,5 @@
 # CPCC
-Data and codes for the paper "Modeling Bilingual Conversational Characteristics for Neural Chat Translation" by the authors "Yunlong Liang, Fandong Meng, Yufeng Chen, Jinan Xu and Jie Zhou" (accepted as long paper at ACL-IJCNLP 2021 main conference)
+Data and codes for the ACL-IJCNLP-2021 main conference paper [Modeling Bilingual Conversational Characteristics for Neural Chat Translation](https://aclanthology.org/2021.acl-long.444/).
 
 # Introduction
 
