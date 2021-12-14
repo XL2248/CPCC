@@ -106,6 +106,9 @@ def gelu(input_tensor):
   cdf = 0.5 * (1.0 + tf.erf(input_tensor / tf.sqrt(2.0)))
   return input_tensor * cdf
 
+def softplus(x):
+    return np.log(1.0 + np.exp(x))
+
 def w_encoder_attention(queries,
                         keys,
                         sequence_length,
