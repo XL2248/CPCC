@@ -706,8 +706,8 @@ def decoding_graph(features, state, mode, params):
 
     # context latent
     if params.use_mtstyle_latent:
-        ctx_prior = tf.layers.dense(tf.concat([src_rep, context_sty_src, context_sty_tgt], -1), hidden_size, activation=tf.nn.tanh, name="transform1")
-        ctx_prior_mu = tf.layers.dense(ctx_prior, params.latent_dim, activation=tf.nn.tanh， use_bias=True, name="prior_fc1")
+        ctx_prior = tf.layers.dense(tf.concat([src_rep, context_sty_src, context_sty_tgt], -1), hidden_size, use_bias=True, name="transform1")
+        ctx_prior_mu = tf.layers.dense(ctx_prior, params.latent_dim, use_bias=True, name="prior_fc1")
 
         ctx_prior_logvar = softplus(ctx_prior_mu)
         latent_sample_ctx = sample_gaussian(ctx_prior_mu, ctx_prior_logvar) # ctx
@@ -715,17 +715,17 @@ def decoding_graph(features, state, mode, params):
 
     #emotion latent
     if params.use_dialog_latent:
-        emo_prior = tf.layers.dense(tf.concat([src_rep, context_dia_src], -1), hidden_size, activation=tf.nn.tanh, name="transform2")
+        emo_prior = tf.layers.dense(tf.concat([src_rep, context_dia_src], -1), hidden_size, use_bias=True, name="transform2")
 #        emo_prior = src_rep
-        emo_prior_mu = tf.layers.dense(emo_prior, params.latent_dim, activation=tf.nn.tanh, use_bias=True, name="prior_fc2")
+        emo_prior_mu = tf.layers.dense(emo_prior, params.latent_dim, use_bias=True, name="prior_fc2")
         emo_prior_logvar = softplus(emo_prior_mu)
         latent_sample_emo = sample_gaussian(emo_prior_mu, emo_prior_logvar) # emo
         latent_sample_ = latent_sample_emo
 
     # third latent
     if params.use_language_latent:
-        t_prior = tf.layers.dense(tf.concat([src_rep, context_lan_src, context_lan_tgt], -1), hidden_size, activation=tf.nn.tanh, name="transform3")
-        prior_mu3 = tf.layers.dense(t_prior, params.latent_dim, activation=tf.nn.tanh, use_bias=True, name="prior_fc3")
+        t_prior = tf.layers.dense(tf.concat([src_rep, context_lan_src, context_lan_tgt], -1), hidden_size, use_bias=True, name="transform3")
+        prior_mu3 = tf.layers.dense(t_prior, params.latent_dim, use_bias=True, name="prior_fc3")
         prior_logvar3 = softplus(prior_mu3)
         latent_sample_3 = sample_gaussian(prior_mu3, prior_logvar3) # language
         latent_sample_ = latent_sample_3
