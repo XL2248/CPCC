@@ -707,8 +707,9 @@ def decoding_graph(features, state, mode, params):
     # context latent
     if params.use_mtstyle_latent:
         ctx_prior = tf.layers.dense(tf.concat([src_rep, context_sty_src, context_sty_tgt], -1), hidden_size, activation=tf.nn.tanh, name="transform1")
-        ctx_prior_mulogvar = tf.layers.dense(tf.layers.dense(ctx_prior, 256, activation=tf.nn.tanh), params.latent_dim * 2, use_bias=False, name="prior_fc1")
-        ctx_prior_mu, ctx_prior_logvar = tf.split(ctx_prior_mulogvar, 2, axis=1)
+        ctx_prior_mu = tf.layers.dense(ctx_prior, params.latent_dim, activation=tf.nn.tanh， use_bias=True, name="prior_fc1")
+
+        ctx_prior_logvar = softplus(ctx_prior_mu)
         latent_sample_ctx = sample_gaussian(ctx_prior_mu, ctx_prior_logvar) # ctx
         latent_sample_ = latent_sample_ctx
 
@@ -716,16 +717,16 @@ def decoding_graph(features, state, mode, params):
     if params.use_dialog_latent:
         emo_prior = tf.layers.dense(tf.concat([src_rep, context_dia_src], -1), hidden_size, activation=tf.nn.tanh, name="transform2")
 #        emo_prior = src_rep
-        emo_prior_mulogvar = tf.layers.dense(tf.layers.dense(emo_prior, 256, activation=tf.nn.tanh), params.latent_dim * 2, use_bias=False, name="prior_fc2")
-        emo_prior_mu, emo_prior_logvar = tf.split(emo_prior_mulogvar, 2, axis=1)
+        emo_prior_mu = tf.layers.dense(emo_prior, params.latent_dim, activation=tf.nn.tanh, use_bias=True, name="prior_fc2")
+        emo_prior_logvar = softplus(emo_prior_mu)
         latent_sample_emo = sample_gaussian(emo_prior_mu, emo_prior_logvar) # emo
         latent_sample_ = latent_sample_emo
 
     # third latent
     if params.use_language_latent:
         t_prior = tf.layers.dense(tf.concat([src_rep, context_lan_src, context_lan_tgt], -1), hidden_size, activation=tf.nn.tanh, name="transform3")
-        prior_mulogvar3 = tf.layers.dense(tf.layers.dense(t_prior, 256, activation=tf.nn.tanh), params.latent_dim * 2, use_bias=False, name="prior_fc3")
-        prior_mu3, prior_logvar3 = tf.split(prior_mulogvar3, 2, axis=1)
+        prior_mu3 = tf.layers.dense(t_prior, params.latent_dim, activation=tf.nn.tanh, use_bias=True, name="prior_fc3")
+        prior_logvar3 = softplus(prior_mu3)
         latent_sample_3 = sample_gaussian(prior_mu3, prior_logvar3) # language
         latent_sample_ = latent_sample_3
 
@@ -737,37 +738,37 @@ def decoding_graph(features, state, mode, params):
         # post context latent
         if params.use_mtstyle_latent:
             ctx_post = tf.concat([src_rep, context_sty_src, context_sty_tgt, tgt_rep], axis=-1)
-            ctx_post_encode = tf.layers.dense(ctx_post, hidden_size, use_bias=False, name="mixedencoderdecoder_sty")
-            post_mulogvar_ctx = tf.layers.dense(ctx_post_encode, params.latent_dim * 2, use_bias=False, name="post_fc1")
-            ctx_post_mu, ctx_post_logvar = tf.split(post_mulogvar_ctx, 2, axis=1)
+            ctx_post_encode = tf.layers.dense(ctx_post, hidden_size, use_bias=True, name="mixedencoderdecoder_sty")
+            ctx_post_mu = tf.layers.dense(ctx_post_encode, params.latent_dim, use_bias=True, name="post_fc1")
+            ctx_post_logvar = softplus(ctx_post_mu)
             latent_sample_ctx_p = sample_gaussian(ctx_post_mu, ctx_post_logvar)
             latent_sample_ = latent_sample_ctx_p
 
         if params.use_dialog_latent:
         # post emotion latent
             emo_post = tf.concat([src_rep, context_dia_src, tgt_rep], axis=-1)
-            emo_post_encode = tf.layers.dense(emo_post, hidden_size, use_bias=False, name="mixedencoderdecoder_dia")
-            post_mulogvar_emo = tf.layers.dense(emo_post_encode, params.latent_dim * 2, use_bias=False, name="post_fc2")
-            emo_post_mu, emo_post_logvar = tf.split(post_mulogvar_emo, 2, axis=1)
+            emo_post_encode = tf.layers.dense(emo_post, hidden_size, use_bias=True, name="mixedencoderdecoder_dia")
+            emo_post_mu = tf.layers.dense(emo_post_encode, params.latent_dim, use_bias=True, name="post_fc2")
+            emo_post_logvar = softplus(emo_post_mu)
             latent_sample_emo_p = sample_gaussian(emo_post_mu, emo_post_logvar)
             latent_sample_ = latent_sample_emo_p
 
         if params.use_language_latent:
         # three latent
             t_post = tf.concat([src_rep, context_lan_src, context_lan_tgt, tgt_rep], axis=-1)
-            t_post_encode = tf.layers.dense(t_post, hidden_size, use_bias=False, name="mixedencoderdecoder_lan")
-            post_mulogvar_t = tf.layers.dense(t_post_encode, params.latent_dim * 2, use_bias=False, name="post_fc")
-            t_post_mu, t_post_logvar = tf.split(post_mulogvar_t, 2, axis=1)
+            t_post_encode = tf.layers.dense(t_post, hidden_size, use_bias=True, name="mixedencoderdecoder_lan")
+            t_post_mu = tf.layers.dense(t_post_encode, params.latent_dim, use_bias=True, name="post_fc")
+            t_post_logvar = softplus(t_post_mu)
             latent_sample_t_p = sample_gaussian(t_post_mu, t_post_logvar)
             latent_sample_ = latent_sample_t_p
 
         if params.use_dialog_latent and params.use_language_latent and params.use_mtstyle_latent:
-            latent_sample_ = tf.layers.dense(tf.concat([latent_sample_ctx_p, latent_sample_emo_p, latent_sample_t_p], axis=-1), params.latent_dim, use_bias=False, name="latent_fc1")
+            latent_sample_ = tf.layers.dense(tf.concat([latent_sample_ctx_p, latent_sample_emo_p, latent_sample_t_p], axis=-1), params.latent_dim, use_bias=True, name="latent_fc1")
         #print("last",latent_sample_)
     else:
         # latent_sample_ = sample_gaussian(prior_mu, prior_logvar)
         if params.use_dialog_latent and params.use_language_latent and params.use_mtstyle_latent:
-            latent_sample_ = tf.layers.dense(tf.concat([latent_sample_ctx, latent_sample_emo, latent_sample_3], axis=-1), params.latent_dim, use_bias=False, name="latent_fc1")
+            latent_sample_ = tf.layers.dense(tf.concat([latent_sample_ctx, latent_sample_emo, latent_sample_3], axis=-1), params.latent_dim, use_bias=True, name="latent_fc1")
         #latent_sample_ = tf.concat([latent_sample_ctx, latent_sample_emo], axis=-1)
 
         decoder_input = decoder_input[:, -1:, :]
@@ -780,7 +781,7 @@ def decoding_graph(features, state, mode, params):
         decoder_output = decoder_output[:, -1, :]
         if params.use_dialog_latent or params.use_language_latent or params.use_mtstyle_latent:
             out_lat = tf.concat([decoder_output, latent_sample_], axis=-1)
-            out_lat1 = tf.layers.dense(out_lat, params.hidden_size, activation=tf.tanh, use_bias=False, name="last")
+            out_lat1 = tf.layers.dense(out_lat, params.hidden_size, activation=tf.tanh, use_bias=True, name="last")
         else:
             out_lat1 = decoder_output
         logits = tf.matmul(out_lat1, weights, False, True)
@@ -794,7 +795,7 @@ def decoding_graph(features, state, mode, params):
         latent_sample = tf.tile(tf.expand_dims(latent_sample_, 1), [1, tf.shape(decoder_output)[-2], 1])
     #code.interact(local=locals())
         out_lat = tf.concat([decoder_output, latent_sample], axis=-1)
-        out_lat1 = tf.layers.dense(out_lat, hidden_size, activation=tf.tanh, use_bias=False, name="last")
+        out_lat1 = tf.layers.dense(out_lat, hidden_size, activation=tf.tanh, use_bias=True, name="last")
     else:
         out_lat1 = decoder_output
     decoder_output1 = tf.reshape(out_lat1, [-1, hidden_size])
